@@ -1,0 +1,8 @@
+  Q1：c++运行engine模型，输出nan；在trtexec中可能能够正确输出，但c++正确推理，结果仍然为nan。
+  A1：onnx转换到engine时设定了fp16，tensorrt本身问题，fp16精度下无法正常推理。
+
+  Q2：c++运行engine模型，推理出错
+  A2：检查模型输入输出，给engine分配内存时，输入输出一定要与模型匹配。有5个输出，但是只想取第一个，于是只定义第一个输出的空间，必然报错。
+
+  Q3：trtexec运行一些代码
+  A3：转换：trtexec --onnx=yolo.onnx --saveEngine=yolo.engine --memPoolSize=workspace:1024。推理：trtexec --loadEngine=yolo.engine --loadInputs='data':image.raw --exportOutput=output.json
