@@ -5,4 +5,5 @@
   A2：检查模型输入输出，给engine分配内存时，输入输出一定要与模型匹配。有5个输出，但是只想取第一个，于是只定义第一个输出的空间，必然报错。
 
   Q3：trtexec运行一些代码
-  A3：转换：trtexec --onnx=yolo.onnx --saveEngine=yolo.engine --memPoolSize=workspace:1024。推理：trtexec --loadEngine=yolo.engine --loadInputs='data':image.raw --exportOutput=output.json
+  A3：转换：trtexec --onnx=yolo.onnx --saveEngine=yolo.engine --memPoolSize=workspace:1024 --fp16 --memPoolSize=workspace:7000 --fp16 --minShapes=data:1x3x256x128 --optShapes=data:4x3x256x128 --maxShapes=data:20x3x256x128。
+  推理：trtexec --loadEngine=yolo.engine --loadInputs='data':image.raw --exportOutput=output.json
